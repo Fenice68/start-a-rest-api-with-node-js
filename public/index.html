@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js REST API - Dashboard & Test</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1>Node.js REST API</h1>
+          <p class="subtitle">Pannello di controllo interattivo e documentazione</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span id="api-status-badge" class="badge badge-success">
+          <span class="status-dot"></span> API Attiva
+        </span>
+        <span class="badge badge-node">Node.js Express</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Colonna Sinistra: Tester e Lista -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2>📦 Gestione Articoli (/api/items)</h2>
+          <div class="panel-actions">
+            <button id="btn-refresh" class="btn btn-secondary">🔄 Ricarica</button>
+            <button id="btn-toggle-create" class="btn btn-primary">➕ Nuovo Articolo</button>
+          </div>
+        </div>
+
+        <!-- Form creazione articolo (a comparsa) -->
+        <div id="create-form-container" class="form-container hidden">
+          <h3 id="form-title">Crea Nuovo Articolo</h3>
+          <form id="item-form">
+            <input type="hidden" id="item-id" />
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="item-title">Titolo *</label>
+                <input type="text" id="item-title" placeholder="Es. Cuffie Noise-Cancelling" required />
+              </div>
+              <div class="form-group">
+                <label for="item-price">Prezzo (€) *</label>
+                <input type="number" id="item-price" step="0.01" min="0" placeholder="Es. 79.99" required />
+              </div>
+              <div class="form-group">
+                <label for="item-category">Categoria</label>
+                <input type="text" id="item-category" placeholder="Es. Audio, Informatica..." />
+              </div>
+              <div class="form-group full-width">
+                <label for="item-description">Descrizione</label>
+                <textarea id="item-description" rows="2" placeholder="Breve descrizione dell'articolo..."></textarea>
+              </div>
+            </div>
+            <div class="form-buttons">
+              <button type="submit" id="btn-save-item" class="btn btn-primary">Salva Articolo</button>
+              <button type="button" id="btn-cancel-item" class="btn btn-secondary">Annulla</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Barra di ricerca e filtro -->
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="🔍 Cerca per titolo o descrizione..." />
+          <button id="btn-check-health" class="btn btn-outline">Test /api/health</button>
+        </div>
+
+        <!-- Lista articoli -->
+        <div id="items-list" class="items-grid">
+          <div class="loading-state">Caricamento articoli in corso...</div>
+        </div>
+      </section>
+
+      <!-- Colonna Destra: Response Viewer & Documentazione -->
+      <aside class="sidebar">
+        <!-- Live Response Viewer -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📡 Risposta HTTP in Tempo Reale</h3>
+            <span id="response-status" class="badge badge-neutral">Pronto</span>
+          </div>
+          <div class="response-container">
+            <div class="response-meta">
+              <span id="response-method-url" class="mono text-muted">In attesa di richieste...</span>
+              <button id="btn-copy-json" class="btn btn-small">Copia JSON</button>
+            </div>
+            <pre id="json-viewer" class="json-viewer"><code>{\n  "messaggio": "Fai clic su un'azione per testare l'API in tempo reale"\n}</code></pre>
+          </div>
+        </div>
+
+        <!-- Documentazione Endpoint -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📖 Endpoint Disponibili</h3>
+          </div>
+          <div class="endpoints-list">
+            <div class="endpoint-card">
+              <span class="method get">GET</span>
+              <code>/api/health</code>
+              <span class="desc">Verifica stato del server</span>
+            </div>
+            <div class="endpoint-card">
+              <span class="method get">GET</span>
+              <code>/api/items</code>
+              <span class="desc">Lista articoli (filtro ?search=)</span>
+            </div>
+            <div class="endpoint-card">
+              <span class="method get">GET</span>
+              <code>/api/items/:id</code>
+              <span class="desc">Dettaglio singolo articolo</span>
+            </div>
+            <div class="endpoint-card">
+              <span class="method post">POST</span>
+              <code>/api/items</code>
+              <span class="desc">Crea un nuovo articolo</span>
+            </div>
+            <div class="endpoint-card">
+              <span class="method put">PUT</span>
+              <code>/api/items/:id</code>
+              <span class="desc">Modifica articolo esistente</span>
+            </div>
+            <div class="endpoint-card">
+              <span class="method delete">DELETE</span>
+              <code>/api/items/:id</code>
+              <span class="desc">Elimina un articolo</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <p>Node.js REST API • Fenice68/start-a-rest-api-with-node-js</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
